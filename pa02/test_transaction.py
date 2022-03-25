@@ -15,6 +15,16 @@ def empty_db(dbile):
     db = Transaction(dbfile)
     yield db
 
+@pytest.fixture
+def small_db(empty_db):
+    ''' create a small database, and tear it down later'''
+    row1 = {'amount':35,'category':'groceries', 'date': '2022-05-02' , 'description': 'buying stuff'}
+    row2 = {'amount':25,'category':'movies', 'date': '2022-05-02' , 'description': 'buying stuff'}
+    row3 = {'amount':20,'category':'groceries', 'date': '2022-03-02' , 'description': 'buying stuff'}
+    id1=empty_db.add(row1)
+    id2=empty_db.add(row2)
+    id3=empty_db.add(row3)
+    small_db = empty_db
 
 # by amanda
 @pytest.mark.selectall
