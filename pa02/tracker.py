@@ -94,7 +94,12 @@ def process_choice(choice):
         row = input('Row id to delete: ')
         transactions.delete(row)
     elif choice == '7':
-        pass
+        trans - transactions.summarize()
+        print("/%-3s %-10s"%('amount','date'))
+        print('-'*40)
+        for tran in trans:
+            value = tuple(tran.values())
+            print("%-10d %-10s"%values) 
     elif choice == '8':
         pass
         pass
