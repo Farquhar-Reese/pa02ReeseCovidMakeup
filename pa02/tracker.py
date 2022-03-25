@@ -86,9 +86,21 @@ def process_choice(choice):
         desc = input("Give a description to the transaction: ")
         amount = float((input("Enter in price: ")))
         categ = input("Enter category of: ")
-        date = float(input("Enter the date of the transaction: "))
+        date = (input("Enter the date of the transaction: "))
         tran = {'item #':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
         transactions.add(tran)
+    elif choice == '6':
+        pass
+    elif choice == '7':
+        pass
+    elif choice == '8':
+        pass
+    elif choice == '9':
+        pass
+    elif choice == '10':
+        pass
+    elif choice == '11':
+        print(menu)
     else:
         print("choice",choice,"not yet implemented")
         
@@ -122,7 +134,7 @@ def print_transactions(items):
     print('-'*40)
     for item in items:
         values = tuple(item.values())
-        print("%-3d %-10s %-10d %-10s %-10d %-30s"%values)
+        print("%-3d %-10s %-10d %-10s %-10s %-30s"%values)
 
 def print_category(cat):
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
