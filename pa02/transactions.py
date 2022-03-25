@@ -50,16 +50,6 @@ class Transaction():
         con.commit()
         con.close()
         return to_trans_dict(tuples[0])
-
-    def summarize(self): #done by nick and adam 
-        ''' return all of the categories as a list of dicts '''
-        con= sqlite3.connect(self.db_name)
-        cur = con.cursor()
-        cur.execute("SELECT rowid,sum(amount), date from transactions, Group By date Order by rowid ASC;")
-        tuples = cur.fetchall()
-        con.commit()
-        con.close()
-        return to_trans_dict_list_summarize(tuples)
     
     def add(self,item): #created by adam
         ''' add a transaction to the transaction table.
@@ -124,6 +114,16 @@ class Transaction():
         con.commit()
         con.close()
         return to_trans_dict_list_summarize(tuples)
+
+    def summarize_category(self): #done by Nick and Adam
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , category from transactions Group By category Order by amount ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
+
 
 if __name__ == "__main__":
     pass
