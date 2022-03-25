@@ -1,8 +1,8 @@
 import sqlite3
-import csv
 
 
 def to_trans_dict(trans_tuple):
+    '''responsible for turning the transaction into a certain tuple format'''
     trans = {'rowid':trans_tuple[0], 'item #':trans_tuple[1], 'amount':trans_tuple[2] , 'category':trans_tuple[3] , 'date':trans_tuple[4] , 'description' : trans_tuple[5]}
     return trans
 
@@ -10,7 +10,17 @@ def to_trans_dict_list(trans_tuples):
     ''' convert a list of trans tuples into a list of dictionaries'''
     return [to_trans_dict(transaction) for transaction in trans_tuples]
 
+def to_trans_dict_summarize(trans_tuple):
+    '''responsible for turning the transaction into a certain tuple format'''
+    trans = {'amount':trans_tuple[0] , 'date':trans_tuple[1]}
+    return trans
+
+def to_trans_dict_list_summarize(trans_tuples):
+    ''' convert a list of trans tuples into a list of dictionaries'''
+    return [to_trans_dict_summarize(transaction) for transaction in trans_tuples]
+
 class Transaction():
+    '''This class is responsible for running sql querries, adding, deleting, etc transactions'''
     db_name = ''
     def __init__(self, db_name):
         self.db_name = db_name
@@ -18,12 +28,11 @@ class Transaction():
         con = sqlite3.connect(db_name)
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS transactions")
-        cur.execute("CREATE TABLE IF NOT EXISTS transactions ('item #' text, 'amount' real, 'category' text, 'date' real, 'description' text)")
+        cur.execute("CREATE TABLE IF NOT EXISTS transactions ('item #' text, 'amount' real, 'category' text, 'date' numeric, 'description' text)")
         con.commit()
         con.close()
-        
 
-    def select_all(self):
+    def select_all(self): #done by amanda
         ''' return all of the categories as a list of dicts.'''
         con= sqlite3.connect(self.db_name)
         cur = con.cursor()
@@ -32,18 +41,17 @@ class Transaction():
         con.commit()
         con.close()
         return to_trans_dict_list(tuples)
-    
     def select_one(self,rowid):
         ''' return a category with a specified rowid '''
         con= sqlite3.connect(self.db_name)
         cur = con.cursor()
-        cur.execute("SELECT rowid,* from transactions where rowid=(?)",(rowid,) )
+        cur.execute("SELECT rowid,* from transactions where rowid=(?)",(rowid,))
         tuples = cur.fetchall()
         con.commit()
         con.close()
         return to_trans_dict(tuples[0])
 
-    def add(self,item):
+    def add(self,item): #created by adam
         ''' add a transaction to the transaction table.
             this returns the rowid of the inserted element
         '''
@@ -56,18 +64,66 @@ class Transaction():
         con.commit()
         con.close()
         return last_rowid[0]
-
-    def delete(self,rowid):
-        ''' add a category to the categories table.
-            this returns the rowid of the inserted element
-        '''
-        con= sqlite3.connect(self.dbfile)
+    def delete(self,rowid): #created by Tommy
+        ''' add a transaction to the transaction table.
+        this returns the rowid of the inserted element
+         '''
+        con= sqlite3.connect(self.db_name)
         cur = con.cursor()
         cur.execute('''DELETE FROM transactions
-                       WHERE rowid=(?);
-        ''',(rowid,))
+                   WHERE rowid=(?);
+                ''',(rowid,))
         con.commit()
         con.close()
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute('''DELETE FROM transactions
+               WHERE rowid=(?);
+                ''',(rowid,))
+        con.commit()
+        con.close()
+
+
+    def summarize(self): #done by nick and adam
+        '''this summarizes the transactions table by date '''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , date from transactions Group By date Order by amount ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
+
+
+    def summarize_year(self): #done by amanda and adam
+        '''this summarizes the transactions table by year '''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , strftime('%Y' , date) as Year from transactions Group By Year Order by Year ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
+
+    def summarize_month(self): #done by Tommy and adam
+        '''this summarizes the transactions table by month '''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , strftime('%m' , date) as Month from transactions Group By Month Order by Month ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
+
+    def summarize_category(self): #done by Nick and Adam
+        '''this summarizes the transactions table by category'''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , category from transactions Group By category Order by amount ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
 
 
 if __name__ == "__main__":
