@@ -26,15 +26,13 @@ In place of SQL queries, we will have method calls.
 
 This app will store the data in a SQLite database ~/tracker.db
 
-Note the actual implementation of the ORM is hidden and so it 
+Note the actual implementation of the ORM is hidden and so it
 could be replaced with PostgreSQL or Pandas or straight python lists
 
 '''
 
 from transactions import Transaction
 from category import Category
-import sys
-import sqlite3
 
 transactions = Transaction('tracker.db')
 category = Category('tracker.db')
@@ -59,8 +57,8 @@ menu = '''
 
 
 
-
 def process_choice(choice):
+    ''' processes the user's choice '''
     if choice=='0':
         return
     elif choice=='1':
@@ -126,16 +124,11 @@ def process_choice(choice):
 
     else:
         print("choice",choice,"not yet implemented")
-        
-
     choice = input("> ")
-    return(choice)
-
+    return choice
 
 def toplevel():
-    ''' handle the user's choice '''
-
-    ''' read the command args and process them'''
+    ''' handle the user's choice, read the command args and process them'''
     print(menu)
     choice = input("> ")
     while choice !='0' :
@@ -160,9 +153,11 @@ def print_transactions(items):
         print("%-3d %-10s %-10d %-10s %-10s %-30s"%values)
 
 def print_category(cat):
+    '''prints the categories'''
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
 
 def print_categories(cats):
+    '''prints the categories'''
     print("%-3s %-10s %-30s"%("id","name","description"))
     print('-'*45)
     for cat in cats:
@@ -172,4 +167,3 @@ def print_categories(cats):
 # here is the main call!
 
 toplevel()
-
