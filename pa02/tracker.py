@@ -137,17 +137,7 @@ def print_categories(cats):
     for cat in cats:
         print_category(cat)
 
-def delete(self,rowid):
-    ''' add a category to the categories table.
-        this returns the rowid of the inserted element
-    '''
-    con= sqlite3.connect(self.dbfile)
-    cur = con.cursor()
-    cur.execute('''DELETE FROM transactions
-                   WHERE rowid=(?);
-    ''',(rowid,))
-    con.commit()
-    con.close()
+
 
 # here is the main call!
 
