@@ -148,6 +148,10 @@ def print_categories(cats):
     for cat in cats:
         print_category(cat)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3cfdb95bcab47a6e4c5670512ce7bbb20375b721
 
 # here is the main call!
 
