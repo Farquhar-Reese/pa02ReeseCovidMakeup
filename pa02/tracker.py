@@ -34,6 +34,7 @@ could be replaced with PostgreSQL or Pandas or straight python lists
 from transactions import Transaction
 from category import Category
 import sys
+import sqlite3
 
 transactions = Transaction('tracker.db')
 category = Category('tracker.db')
@@ -89,6 +90,9 @@ def process_choice(choice):
         date = float(input("Enter the date of the transaction: "))
         tran = {'item #':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
         transactions.add(tran)
+    elif choice == '6':
+        row = input('Row id to delete: ')
+        transactions.delete(row)
     else:
         print("choice",choice,"not yet implemented")
         
@@ -133,7 +137,17 @@ def print_categories(cats):
     for cat in cats:
         print_category(cat)
 
-
+def delete(self,rowid):
+    ''' add a category to the categories table.
+        this returns the rowid of the inserted element
+    '''
+    con= sqlite3.connect(self.dbfile)
+    cur = con.cursor()
+    cur.execute('''DELETE FROM transactions
+                   WHERE rowid=(?);
+    ''',(rowid,))
+    con.commit()
+    con.close()
 
 # here is the main call!
 
