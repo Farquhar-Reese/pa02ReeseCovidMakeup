@@ -94,11 +94,26 @@ def process_choice(choice):
         row = input('Row id to delete: ')
         transactions.delete(row)
     elif choice == '7':
-        pass
+        trans = transactions.summarize()
+        print("%-10s %-10s"%('amount','date'))
+        print('-'*40)
+        for tran in trans:
+            values = tuple(tran.values())
+            print("%-10d %-10s"%values)
     elif choice == '8':
-        pass
+        trans = transactions.summarize_month()
+        print("%-10s %-10s"%('amount','Month'))
+        print('-'*40)
+        for tran in trans:
+            values = tuple(tran.values())
+            print("%-10d %-10s"%values)
     elif choice == '9':
-        pass
+        trans = transactions.summarize_year()
+        print("%-10s %-10s"%('amount','Year'))
+        print('-'*40)
+        for tran in trans:
+            values = tuple(tran.values())
+            print("%-10d %-10s"%values)
     elif choice == '10':
         pass
     elif choice == '11':
@@ -148,10 +163,6 @@ def print_categories(cats):
     for cat in cats:
         print_category(cat)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cfdb95bcab47a6e4c5670512ce7bbb20375b721
 
 # here is the main call!
 

@@ -10,6 +10,14 @@ def to_trans_dict_list(trans_tuples):
     ''' convert a list of trans tuples into a list of dictionaries'''
     return [to_trans_dict(transaction) for transaction in trans_tuples]
 
+def to_trans_dict_summarize(trans_tuple):
+    trans = {'amount':trans_tuple[0] , 'date':trans_tuple[1]}
+    return trans
+
+def to_trans_dict_list_summarize(trans_tuples):
+    ''' convert a list of trans tuples into a list of dictionaries'''
+    return [to_trans_dict_summarize(transaction) for transaction in trans_tuples]
+
 class Transaction():
     db_name = ''
     def __init__(self, db_name):
@@ -57,7 +65,7 @@ class Transaction():
         con.close()
         return last_rowid[0]
     
-    def delete(self,rowid):
+    def delete(self,rowid): #created by Tommy
         ''' add a category to the categories table.
             this returns the rowid of the inserted element
         '''
@@ -70,6 +78,34 @@ class Transaction():
         con.close()
 
 
+    def summarize(self): #done by nick and adam
+        ''' return all of the categories as a list of dicts.'''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , date from transactions Group By date Order by amount ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
+
+
+    def summarize_year(self): #done by amanda and adam
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , strftime('%Y' , date) as Year from transactions Group By Year Order by Year ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
+
+    def summarize_month(self): #done by Tommy and adam
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT sum(amount) , strftime('%m' , date) as Month from transactions Group By Month Order by Month ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
 
 if __name__ == "__main__":
     pass
