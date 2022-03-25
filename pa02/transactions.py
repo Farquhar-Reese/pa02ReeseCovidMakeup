@@ -2,14 +2,13 @@ import sqlite3
 import csv
 
 
-def to_cat_dict(cat_tuple):
-    ''' cat is a category tuple (rowid, name, desc)'''
-    cat = {'rowid':cat_tuple[0], 'name':cat_tuple[1], 'desc':cat_tuple[2]}
-    return cat
+def to_trans_dict(trans_tuple):
+    trans = {'rowid':trans_tuple[0], 'item #':trans_tuple[1], 'amount':trans_tuple[2] , 'category':trans_tuple[3] , 'date':trans_tuple[4] , 'description' : trans_tuple[5]}
+    return trans
 
-def to_cat_dict_list(cat_tuples):
-    ''' convert a list of category tuples into a list of dictionaries'''
-    return [to_cat_dict(cat) for cat in cat_tuples]
+def to_trans_dict_list(trans_tuples):
+    ''' convert a list of trans tuples into a list of dictionaries'''
+    return [to_trans_dict(transaction) for transaction in trans_tuples]
 
 class Transaction():
     db_name = ''
@@ -19,7 +18,7 @@ class Transaction():
         con = sqlite3.connect(db_name)
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS transactions")
-        cur.execute("CREATE TABLE IF NOT EXISTS transactions (item text, amount int, category text, date text, description text)")
+        cur.execute("CREATE TABLE IF NOT EXISTS transactions ('item #' text, 'amount' real, 'category' text, 'date' real, 'description' text)")
         con.commit()
         con.close()
         
@@ -32,7 +31,7 @@ class Transaction():
         tuples = cur.fetchall()
         con.commit()
         con.close()
-        return to_cat_dict_list(tuples)
+        return to_trans_dict_list(tuples)
     
     def select_one(self,rowid):
         ''' return a category with a specified rowid '''
@@ -42,15 +41,15 @@ class Transaction():
         tuples = cur.fetchall()
         con.commit()
         con.close()
-        return to_cat_dict(tuples[0])
+        return to_trans_dict(tuples[0])
 
     def add(self,item):
-        ''' add a category to the categories table.
+        ''' add a transaction to the transaction table.
             this returns the rowid of the inserted element
         '''
         con= sqlite3.connect(self.db_name)
         cur = con.cursor()
-        cur.execute("INSERT INTO categories VALUES(?,?,?,?,?)",(item['item'],item['desc'], item['amount'] , item['category'] , item['date']))
+        cur.execute("INSERT INTO transactions VALUES(?,?,?,?,?)",(item['item #'], item['amount'] , item['category'] , item['date'], item['description']))
         con.commit()
         cur.execute("SELECT last_insert_rowid()")
         last_rowid = cur.fetchone()

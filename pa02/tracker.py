@@ -80,15 +80,15 @@ def process_choice(choice):
     elif choice == '4':
         print('showing transactions')
         trans = transactions.select_all()
-        print_categories(trans)
+        print_transactions(trans)
     elif choice =='5':
         item_no = input("Name the transaction: ")
         desc = input("Give a description to the transaction: ")
-        amount = int(input("Enter in price: "))
+        amount = float((input("Enter in price: ")))
         categ = input("Enter category of: ")
-        date = input("Enter the date of the transaction: ")
-        tran = {'item':item_no, 'desc':desc,'amount': amount , 'category': categ , 'date':date}
-        tran.add(trans)
+        date = float(input("Enter the date of the transaction: "))
+        tran = {'item #':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
+        transactions.add(tran)
     else:
         print("choice",choice,"not yet implemented")
         
@@ -117,12 +117,12 @@ def print_transactions(items):
         print('no items to print')
         return
     print('\n')
-    print("%-10s %-10d %-10s %-10d %-30s"%(
-        'item #','amount','category','date','description'))
+    print("%-3s %-10s %-10s %-10s %-10s %-30s"%(
+       'id', 'item #','amount','category','date','description'))
     print('-'*40)
     for item in items:
-        values = tuple(item.values()) 
-        print("%-10s %-10d %-10s %-10d %-30s"%values)
+        values = tuple(item.values())
+        print("%-3d %-10s %-10d %-10s %-10d %-30s"%values)
 
 def print_category(cat):
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
@@ -132,6 +132,7 @@ def print_categories(cats):
     print('-'*45)
     for cat in cats:
         print_category(cat)
+
 
 
 # here is the main call!

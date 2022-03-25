@@ -25,6 +25,8 @@ class Category():
     def __init__(self,dbfile):
         con= sqlite3.connect(dbfile)
         cur = con.cursor()
+        #remember to take out this line
+        cur.execute("DROP TABLE IF EXISTS categories")
         cur.execute('''CREATE TABLE IF NOT EXISTS categories
                     (name text, desc text)''')
         con.commit()
