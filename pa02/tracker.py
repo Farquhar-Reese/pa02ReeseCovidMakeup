@@ -163,17 +163,6 @@ def print_categories(cats):
     for cat in cats:
         print_category(cat)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cfdb95bcab47a6e4c5670512ce7bbb20375b721
->>>>>>> 8dfa9c355a6a3983f21fabb13fc8f09bc415baa5
-
->>>>>>> 782a94ff9e755594b55a0184a1e6b78674ef1df9
 # here is the main call!
 
 toplevel()
