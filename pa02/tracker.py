@@ -113,7 +113,7 @@ def process_choice(choice):
             values = tuple(tran.values())
             print("%-10d %-10s"%values)
     elif choice == '10':
-        trans = transactions.summarize_year()
+        trans = transactions.summarize_category()
         print("%-10s %-10s"%('amount','category'))
         print('-'*40)
         for tran in trans:
