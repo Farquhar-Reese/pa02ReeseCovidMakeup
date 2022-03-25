@@ -18,12 +18,12 @@ class Transaction():
         con = sqlite3.connect(db_name)
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS transactions")
-        cur.execute("CREATE TABLE IF NOT EXISTS transactions ('item #' text, 'amount' real, 'category' text, 'date' real, 'description' text)")
+        cur.execute("CREATE TABLE IF NOT EXISTS transactions ('item #' text, 'amount' real, 'category' text, 'date' numeric, 'description' text)")
         con.commit()
         con.close()
         
 
-    def select_all(self):
+    def select_all(self): #done 
         ''' return all of the categories as a list of dicts.'''
         con= sqlite3.connect(self.db_name)
         cur = con.cursor()
@@ -54,6 +54,7 @@ class Transaction():
         return to_trans_dict_list_summarize(tuples)
     
     def add(self,item):
+    def add(self,item): #created by adam
         ''' add a transaction to the transaction table.
             this returns the rowid of the inserted element
         '''
@@ -75,6 +76,14 @@ class Transaction():
     cur = con.cursor()
     cur.execute('''DELETE FROM transactions
                    WHERE rowid=(?);
+                ''',(rowid,))
+    con.commit()
+    con.close()
+    ''' this returns the rowid of the inserted element'''
+    con= sqlite3.connect(self.db_name)
+    cur = con.cursor()
+    cur.execute('''DELETE FROM transactions
+               WHERE rowid=(?);
                 ''',(rowid,))
     con.commit()
     con.close()

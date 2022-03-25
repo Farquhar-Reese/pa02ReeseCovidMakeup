@@ -87,16 +87,26 @@ def process_choice(choice):
         desc = input("Give a description to the transaction: ")
         amount = float((input("Enter in price: ")))
         categ = input("Enter category of: ")
-        date = float(input("Enter the date of the transaction: "))
+        date = (input("Enter the date of the transaction: "))
         tran = {'item #':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
         transactions.add(tran)
     elif choice == '6':
         row = input('Row id to delete: ')
         transactions.delete(row)
     elif choice == '7':
-        
+        pass
     elif choice == '8':
-        
+        pass
+        pass
+    elif choice == '8':
+        pass
+    elif choice == '9':
+        pass
+    elif choice == '10':
+        pass
+    elif choice == '11':
+        print(menu)
+
     else:
         print("choice",choice,"not yet implemented")
         
@@ -130,7 +140,7 @@ def print_transactions(items):
     print('-'*40)
     for item in items:
         values = tuple(item.values())
-        print("%-3d %-10s %-10d %-10s %-10d %-30s"%values)
+        print("%-3d %-10s %-10d %-10s %-10s %-30s"%values)
 
 def print_category(cat):
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
@@ -141,6 +151,14 @@ def print_categories(cats):
     for cat in cats:
         print_category(cat)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3cfdb95bcab47a6e4c5670512ce7bbb20375b721
+
+>>>>>>> 782a94ff9e755594b55a0184a1e6b78674ef1df9
 # here is the main call!
 
 toplevel()
