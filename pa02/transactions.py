@@ -43,6 +43,16 @@ class Transaction():
         con.close()
         return to_trans_dict(tuples[0])
 
+    def summarize(self): #done by nick and adam 
+        ''' return all of the categories as a list of dicts '''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute("SELECT rowid,sum(amount), date from transactions, Group By date Order by rowid ASC;")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
+    
     def add(self,item):
         ''' add a transaction to the transaction table.
             this returns the rowid of the inserted element
@@ -56,7 +66,18 @@ class Transaction():
         con.commit()
         con.close()
         return last_rowid[0]
-
+    
+    def delete(self,rowid):
+        ''' add a category to the categories table.
+        this returns the rowid of the inserted element
+         '''
+    con= sqlite3.connect(self.dbfile)
+    cur = con.cursor()
+    cur.execute('''DELETE FROM transactions
+                   WHERE rowid=(?);
+                ''',(rowid,))
+    con.commit()
+    con.close()
 
 
 

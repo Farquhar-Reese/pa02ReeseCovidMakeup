@@ -93,6 +93,10 @@ def process_choice(choice):
     elif choice == '6':
         row = input('Row id to delete: ')
         transactions.delete(row)
+    elif choice == '7':
+        
+    elif choice == '8':
+        
     else:
         print("choice",choice,"not yet implemented")
         
@@ -136,18 +140,6 @@ def print_categories(cats):
     print('-'*45)
     for cat in cats:
         print_category(cat)
-
-def delete(self,rowid):
-    ''' add a category to the categories table.
-        this returns the rowid of the inserted element
-    '''
-    con= sqlite3.connect(self.dbfile)
-    cur = con.cursor()
-    cur.execute('''DELETE FROM transactions
-                   WHERE rowid=(?);
-    ''',(rowid,))
-    con.commit()
-    con.close()
 
 # here is the main call!
 
