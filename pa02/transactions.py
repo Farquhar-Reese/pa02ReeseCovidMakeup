@@ -50,6 +50,7 @@ class Transaction():
         con.commit()
         con.close()
         return to_trans_dict(tuples[0])
+
     
     def add(self,item): #created by adam
         ''' add a transaction to the transaction table.
@@ -69,21 +70,21 @@ class Transaction():
         ''' add a category to the categories table.
         this returns the rowid of the inserted element
          '''
-    con= sqlite3.connect(self.dbfile)
-    cur = con.cursor()
-    cur.execute('''DELETE FROM transactions
+        con= sqlite3.connect(self.dbfile)
+        cur = con.cursor()
+        cur.execute('''DELETE FROM transactions
                    WHERE rowid=(?);
                 ''',(rowid,))
-    con.commit()
-    con.close()
-    ''' this returns the rowid of the inserted element'''
-    con= sqlite3.connect(self.db_name)
-    cur = con.cursor()
-    cur.execute('''DELETE FROM transactions
+        con.commit()
+        con.close()
+        ''' this returns the rowid of the inserted element'''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute('''DELETE FROM transactions
                WHERE rowid=(?);
                 ''',(rowid,))
-    con.commit()
-    con.close()
+        con.commit()
+        con.close()
 
 
     def summarize(self): #done by nick and adam
