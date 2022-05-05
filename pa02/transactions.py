@@ -124,6 +124,21 @@ class Transaction():
         con.commit()
         con.close()
         return to_trans_dict_list_summarize(tuples)
+    
+    def update(self,rowid,item): #done by Reese
+        ''' edits a transaction within the transactions table.
+            this returns the rowid of the inserted element
+        '''
+        con= sqlite3.connect(self.db_name)
+        cur = con.cursor()
+        cur.execute('''UPDATE categories
+                        SET item #=(?), amount=(?), category=(?), date=(?), description=(?)
+                        WHERE rowid=(?);
+        ''',(item['item #'],item['amount'],item['category'],item['date'],item['description'],rowid))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return to_trans_dict_list_summarize(tuples)
 
 
 if __name__ == "__main__":

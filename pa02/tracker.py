@@ -53,6 +53,7 @@ menu = '''
 9. summarize transactions by year
 10. summarize transactions by category
 11. print this menu
+12. Edit transaction
 '''
 
 
@@ -122,8 +123,15 @@ def process_choice(choice):
     elif choice == '11':
         print(menu)
     elif choice == '12':
-        print("this is gonna be a custom menu")
-        print(menu)
+        print("Altering Transaction")
+        rowid = int(input("rowid: "))
+        item_no = input("Name the transaction: ")
+        desc = input("Give a description to the transaction: ")
+        amount = float((input("Enter in price: ")))
+        categ = input("Enter category of: ")
+        date = (input("Enter the date of the transaction: "))
+        tran = {'item #':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
+        transactions.update(rowid,tran)
 
     else:
         print("choice",choice,"not yet implemented")
