@@ -53,6 +53,30 @@ def test_select(small_db):
     trans1 = small_db.select_one(rowid)
     assert trans0['itemNum']==trans1['itemNum']
     assert trans0['description']==trans1['description']
+
+# by Reese    
+@pytest.mark.update
+def test_update(med_db):
+    ''' this test adds a transaction to the db. Then we update it. Then we have to check to make sure we actually updated correctly.  '''
+    trans0 = {'item':'testing_update',
+            'amount': 69,
+            'category' : 'I am testing over here...',
+            'date': '2022-01-12',
+            'description':'The fate of the project depends on whether this dang thing works...',
+            }
+    rowid = med_db.add(trans0)
+
+    # now we upate the category
+    tran1 = {'item':'Lamp','amount': 44,'category':'fake food','date':'2022-04-28','description':'Please do not eat lamps. You could die...'}
+    med_db.update(rowid,tran1)
+
+    # now we retrieve the category and check that it has changed
+    tran2 = med_db.select_one(rowid)
+    assert tran2['item']==tran1['Lamp']
+    assert tran2['amount']==tran1[44]
+    assert tran2['category']==tran1['fake food']
+    assert tran2['date']==tran1['2022-04-28']
+    assert tran2['description']==tran1['Please do not eat lamps. You could die...']
     
 @pytest.mark.summarize
 def test_summarize():
