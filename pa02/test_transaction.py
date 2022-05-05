@@ -66,11 +66,9 @@ def test_update(med_db):
             }
     rowid = med_db.add(trans0)
 
-    # now we upate the category
     tran1 = {'item':'Lamp','amount': 44,'category':'fake food','date':'2022-04-28','description':'Please do not eat lamps. You could die...'}
     med_db.update(rowid,tran1)
 
-    # now we retrieve the category and check that it has changed
     tran2 = med_db.select_one(rowid)
     assert tran2['item']==tran1['Lamp']
     assert tran2['amount']==tran1[44]
@@ -81,7 +79,7 @@ def test_update(med_db):
 @pytest.mark.summarize
 def test_summarize():
     ''' create new db, add rows, then summarize'''
-    # add rows amount, category, date (yyyymmdd), description
+    # add rows amount, transaction, date (yyyymmdd), description
     result = Transaction(small_db).summarize()
     
     assert len(result) == 2
