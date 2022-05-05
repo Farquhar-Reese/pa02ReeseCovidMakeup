@@ -121,6 +121,9 @@ def process_choice(choice):
             print("%-10d %-10s"%values)
     elif choice == '11':
         print(menu)
+    elif choice == '12':
+        print("this is gonna be a custom menu")
+        print(menu)
 
     else:
         print("choice",choice,"not yet implemented")
