@@ -51,7 +51,7 @@ def test_select(small_db):
             }
     rowid = small_db.add(trans0)
     trans1 = small_db.select_one(rowid)
-    assert trans0['item #']==trans1['item #']
+    assert trans0['itemNum']==trans1['itemNum']
     assert trans0['description']==trans1['description']
     
 @pytest.mark.summarize

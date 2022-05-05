@@ -87,7 +87,7 @@ def process_choice(choice):
         amount = float((input("Enter in price: ")))
         categ = input("Enter category of: ")
         date = (input("Enter the date of the transaction: "))
-        tran = {'item #':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
+        tran = {'itemNum':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
         transactions.add(tran)
     elif choice == '6':
         row = input('Row id to delete: ')
@@ -130,7 +130,7 @@ def process_choice(choice):
         amount = float((input("Enter in price: ")))
         categ = input("Enter category of: ")
         date = (input("Enter the date of the transaction: "))
-        tran = {'item #':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
+        tran = {'itemNum':item_no, 'amount': amount , 'category': categ , 'date':date, 'description':desc}
         transactions.update(rowid,tran)
 
     else:
@@ -157,7 +157,7 @@ def print_transactions(items):
         return
     print('\n')
     print("%-3s %-10s %-10s %-10s %-10s %-30s"%(
-       'id', 'item #','amount','category','date','description'))
+       'id', 'itemNum','amount','category','date','description'))
     print('-'*40)
     for item in items:
         values = tuple(item.values())

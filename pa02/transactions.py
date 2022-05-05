@@ -3,7 +3,7 @@ import sqlite3
 
 def to_trans_dict(trans_tuple):
     '''responsible for turning the transaction into a certain tuple format'''
-    trans = {'rowid':trans_tuple[0], 'item #':trans_tuple[1], 'amount':trans_tuple[2] , 'category':trans_tuple[3] , 'date':trans_tuple[4] , 'description' : trans_tuple[5]}
+    trans = {'rowid':trans_tuple[0], 'itemNum':trans_tuple[1], 'amount':trans_tuple[2] , 'category':trans_tuple[3] , 'date':trans_tuple[4] , 'description' : trans_tuple[5]}
     return trans
 
 def to_trans_dict_list(trans_tuples):
@@ -28,7 +28,7 @@ class Transaction():
         con = sqlite3.connect(db_name)
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS transactions")
-        cur.execute("CREATE TABLE IF NOT EXISTS transactions ('item #' text, 'amount' real, 'category' text, 'date' numeric, 'description' text)")
+        cur.execute("CREATE TABLE IF NOT EXISTS transactions ('itemNum' text, 'amount' real, 'category' text, 'date' numeric, 'description' text)")
         con.commit()
         con.close()
 
@@ -57,7 +57,7 @@ class Transaction():
         '''
         con= sqlite3.connect(self.db_name)
         cur = con.cursor()
-        cur.execute("INSERT INTO transactions VALUES(?,?,?,?,?)",(item['item #'], item['amount'] , item['category'] , item['date'], item['description']))
+        cur.execute("INSERT INTO transactions VALUES(?,?,?,?,?)",(item['itemNum'], item['amount'] , item['category'] , item['date'], item['description']))
         con.commit()
         cur.execute("SELECT last_insert_rowid()")
         last_rowid = cur.fetchone()
@@ -131,14 +131,12 @@ class Transaction():
         '''
         con= sqlite3.connect(self.db_name)
         cur = con.cursor()
-        cur.execute('''UPDATE categories
-                        SET item #=(?), amount=(?), category=(?), date=(?), description=(?)
+        cur.execute('''UPDATE transactions
+                        SET itemNum=(?), amount=(?), category=(?), date=(?), description=(?)
                         WHERE rowid=(?);
-        ''',(item['item #'],item['amount'],item['category'],item['date'],item['description'],rowid))
-        tuples = cur.fetchall()
+        ''',(item['itemNum'],item['amount'],item['category'],item['date'],item['description'],rowid))
         con.commit()
-        con.close()
-        return to_trans_dict_list_summarize(tuples)
+        con.close()    
 
 
 if __name__ == "__main__":
